@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Certificate Modal Logic
+    // Certificate Modal Logic (if present)
     const modal = document.getElementById('certModal');
     const modalImg = document.getElementById('modalImg');
     const modalTitle = document.getElementById('modalTitle');
@@ -96,33 +96,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModal = document.querySelector('.close-modal');
     const certCards = document.querySelectorAll('.certificate-card');
 
-    certCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const title = card.getAttribute('data-title');
-            const issuer = card.getAttribute('data-issuer');
-            const imgSrc = card.getAttribute('data-image');
+    if (modal && certCards.length > 0) {
+        certCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.getAttribute('data-title');
+                const issuer = card.getAttribute('data-issuer');
+                const imgSrc = card.getAttribute('data-image');
 
-            modalTitle.innerText = title;
-            modalIssuer.innerText = issuer;
-            modalImg.src = imgSrc;
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+                if (modalTitle) modalTitle.innerText = title;
+                if (modalIssuer) modalIssuer.innerText = issuer;
+                if (modalImg) modalImg.src = imgSrc;
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
         });
-    });
 
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restore scrolling
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            });
+        }
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
         });
     }
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restore scrolling
-        }
-    });
 
     // Form submission
     const contactForm = document.querySelector('.contact-form');
